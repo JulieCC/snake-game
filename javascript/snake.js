@@ -113,3 +113,32 @@ Snake.prototype.generatepositionClasses = function (){
         this.corps[i].positionClass =  formatName(this.corps[i].position);
     }
 };
+
+// Faire avancer le Snake
+Snake.prototype.moveHead = function (){
+  console.log('depart :');
+  console.log(this.head.position);
+  switch (this.head.direction) {
+    case "down":
+      this.head.position[0] = this.head.position[0] + 1;
+      this.head.position[1] = this.head.position[1];
+      break;
+    case "up":
+      this.head.position[0] = this.head.position[0] - 1;
+      this.head.position[1] = this.head.position[1];
+      break;
+    case "left":
+      this.head.position[0] = this.head.position[0];
+      this.head.position[1] = this.head.position[1] - 1;
+      break;
+    case "right":
+      this.head.position[0] = this.head.position[0];
+      this.head.position[1] = this.head.position[1] + 1;
+      break;
+  };
+  console.log('arrivee :');
+  console.log(this.head.position);
+
+
+  return this.head.position;
+;}

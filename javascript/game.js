@@ -2,6 +2,7 @@
 
 // Paramètres du jeu
 var boardDim = 15; // dimensions du tableau
+var snakeMove; // fréquence à laquelle le serpent avance
 var snakeFreq; // fréquence à laquelle le serpent grandit
 var bonusFruit; // nombre de points gagnés à chaque fruit croqué
 
@@ -38,37 +39,25 @@ $(document).ready(function() {
     this.y = randomCoordinates(boardDim)[1];
     this.positionClass = "";
   }
-  var fruit = new Fruit();
 
-  // Créer et placer le snake
-  var mySnake = new Snake();
+  // créer et mettre en forme le fruit
+  var myFruit = new Fruit();
+  myFruit.positionClass = formatName([myFruit.x, myFruit.y]);
 
-  // Initialiser le jeu : afficher le tableau, le fruit et le snake
-  var startGame = function() {
-    var boardDiv = document.getElementById("board-game");
-    boardDiv.innerHTML = createBoard(boardDim);
-  };
-
-  $(".button-start-game").click(function() {
-    startGame();
+    // Créer et placer le snake
+    var mySnake = new Snake();
     mySnake.positionSnakeBody();
-    console.log("Position de la tete = " + mySnake.head.position);
-    console.log(
-      "Position du premier élément du corps = " + mySnake.corps[0].position
-    );
-    console.log(
-      "Position du deuxieme élément du corps = " + mySnake.corps[1].position
-    );
-    console.log("Position de la tail = " + mySnake.tail.position);
     mySnake.generatepositionClasses();
-    console.log(mySnake);
-    // generateClasses();
 
-    fruit.positionClass = formatName([fruit.x, fruit.y]);
-    console.log("Position du fruit = " + fruit.positionClass);
+function removeClasses() {
+    $( ".fruit" ).removeClass("fruit");
+    $( ".snake-head" ).removeClass("snake-head");
+    $( ".snake-corps" ).removeClass("snake-corps");
+    $( ".snake-tail" ).removeClass("snake-tail");
+  }
 
-    // var generateClasses = function(){
-    $("#board-game tr ." + fruit.positionClass).addClass("fruit");
+function generateClasses() {
+    $("#board-game tr ." + myFruit.positionClass).addClass("fruit");
     $("#board-game tr ." + mySnake.head.positionClass).addClass("snake-head");
     for (i = 0; i < mySnake.corps.length; i++) {
       $("#board-game tr ." + mySnake.corps[i].positionClass).addClass(
@@ -76,7 +65,30 @@ $(document).ready(function() {
       );
     }
     $("#board-game tr ." + mySnake.tail.positionClass).addClass("snake-tail");
+  };
 
-    // }
+
+  // Initialiser le jeu : afficher le tableau, le fruit et le snake
+  var startGame = function() {
+    var boardDiv = document.getElementById("board-game");
+    boardDiv.innerHTML = createBoard(boardDim);
+    console.log(mySnake);
+  };
+
+function updateBoard(){
+  removeClasses();
+  mySnake.moveHead();
+  mySnake.positionSnakeBody();
+  mySnake.generatepositionClasses();
+  generateClasses();
+}
+
+  $(".button-start-game").click(function() {
+    startGame();
+    generateClasses();
+    // updateBoard();
+    setInterval(updateBoard, 1000);
+    
   }); // end of button-start-game-click
+
 }); // end of document ready
