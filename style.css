@@ -12,3 +12,15 @@ tr, td {
  .fruit {
      background-color:red;
  }
+
+ .snake-head {
+     background-color: blue;
+ }
+
+ .snake-corps {
+    background-color : pink;
+}
+
+.snake-tail {
+    background-color: green;
+}
