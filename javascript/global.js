@@ -11,3 +11,4 @@ function randomCoordinates(boardDim){
 function formatName(position){
     return "row" + position[0] + "." + "col"+ position[1];
 }
+

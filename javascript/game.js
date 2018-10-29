@@ -46,8 +46,8 @@ $(document).ready(function() {
 
     // Créer et placer le snake
     var mySnake = new Snake();
-    mySnake.positionSnakeBody();
-    mySnake.generatepositionClasses();
+    mySnake.moveSnake();
+    mySnake.tagSnakeClasses();
 
 function removeClasses() {
     $( ".fruit" ).removeClass("fruit");
@@ -56,39 +56,54 @@ function removeClasses() {
     $( ".snake-tail" ).removeClass("snake-tail");
   }
 
-function generateClasses() {
+function updateClasses() {
+  removeClasses();
     $("#board-game tr ." + myFruit.positionClass).addClass("fruit");
+    mySnake.tagSnakeClasses();
     $("#board-game tr ." + mySnake.head.positionClass).addClass("snake-head");
-    for (i = 0; i < mySnake.corps.length; i++) {
+    for (i = 0; i < mySnake.len-1 ; i++) {
       $("#board-game tr ." + mySnake.corps[i].positionClass).addClass(
         "snake-corps"
       );
     }
-    $("#board-game tr ." + mySnake.tail.positionClass).addClass("snake-tail");
+    $("#board-game tr ." +  mySnake.corps[mySnake.len-2].positionClass).addClass("snake-tail");
   };
-
 
   // Initialiser le jeu : afficher le tableau, le fruit et le snake
   var startGame = function() {
     var boardDiv = document.getElementById("board-game");
     boardDiv.innerHTML = createBoard(boardDim);
-    console.log(mySnake);
+    // console.log(mySnake);
   };
 
 function updateBoard(){
-  removeClasses();
-  mySnake.moveHead();
-  mySnake.positionSnakeBody();
-  mySnake.generatepositionClasses();
-  generateClasses();
+  mySnake.moveSnake();
+  mySnake.updateDir();
+  updateClasses();
+}
+
+function grow (){
+  mySnake.grow();
+  // updateClasses();
 }
 
   $(".button-start-game").click(function() {
     startGame();
-    generateClasses();
-    // updateBoard();
+    console.log(mySnake);
+    // setInterval(grow,2000);
+    updateClasses();
+    // grow();
+    console.log(mySnake);
     setInterval(updateBoard, 1000);
+
+
     
   }); // end of button-start-game-click
+
+
+  document.onkeydown = function(e) {
+        mySnake.changeHeadDir(e.keyCode);
+  };
+  
 
 }); // end of document ready
