@@ -1,7 +1,6 @@
 // CE FICHIER DEFINIT LE SNAKE ET SON COMPORTEMENT
 
 // Créer un élément du serpent
-
 function snakeBodyElement(row, col, direction = "right") {
   return (element = {
     row,
@@ -11,7 +10,6 @@ function snakeBodyElement(row, col, direction = "right") {
 }
 
 // Créer le snake = constructeur Snake
-
 function Snake(length) {
   this.len = length;
   this.body = [snakeBodyElement(0, 0)];
@@ -21,15 +19,14 @@ function Snake(length) {
   this.body.push(snakeBodyElement(0, 0));
 }
 
-Snake.prototype.initializePositions = function(){
+Snake.prototype.initializePositions = function() {
   this.body[0].row = Math.floor(boardDim / 2);
   this.body[0].col = Math.floor(boardDim / 2);
   for (var i = 1; i < this.body.length; i++) {
-    this.body[i].row = this.body[i - 1].row
+    this.body[i].row = this.body[i - 1].row;
     this.body[i].col = this.body[i - 1].col - 1;
   }
-}
-
+};
 
 // Afficher le snake
 Snake.prototype.drawSnake = function() {
@@ -39,9 +36,7 @@ Snake.prototype.drawSnake = function() {
 
   var mySnakeClasses = [];
   for (var i = 0; i < this.body.length; i++) {
-    mySnakeClasses.push(
-      formatName(this.body[i])
-    );
+    mySnakeClasses.push(formatName(this.body[i]));
   }
 
   $("#board-game tr ." + mySnakeClasses[0]).addClass("snake-head");
@@ -55,7 +50,7 @@ Snake.prototype.drawSnake = function() {
 
 // déplacer les éléments du serpent
 Snake.prototype.moveParts = function(elementArray) {
-  for (var i=0 ; i < elementArray.length; i++) {
+  for (var i = 0; i < elementArray.length; i++) {
     switch (elementArray[i].direction) {
       case "down":
         elementArray[i].row++;
@@ -85,15 +80,16 @@ Snake.prototype.moveParts = function(elementArray) {
   }
 };
 
-//déplacer l'ensemble des éléments
-
+//déplacer le snake
 Snake.prototype.moveSnake = function() {
   this.moveParts(this.body);
 
-// mettre à jour les directions
+  // mettre à jour les directions
   for (var i = this.body.length - 1; i > 0; i--) {
     this.body[i].direction = this.body[i - 1].direction;
   }
+
+  this.drawSnake();
 };
 
 // Changer de direction
@@ -118,11 +114,12 @@ Snake.prototype.changeHeadDir = function(keyCode) {
   }
 };
 
-//grandir
-Snake.prototype.grow = function(){
-  console.log(this.body);
-
-  var newElement = snakeBodyElement(this.body[this.body.length-1].row,this.body[this.body.length-1].col);
+// Grandir
+Snake.prototype.grow = function() {
+  var newElement = snakeBodyElement(
+    this.body[this.body.length - 1].row,
+    this.body[this.body.length - 1].col
+  );
 
   switch (newElement.direction) {
     case "down":
@@ -138,9 +135,30 @@ Snake.prototype.grow = function(){
       newElement.col--;
       break;
   }
-this.body[this.len] = newElement;
-  console.log(this.body);
-  this.len ++;
+  this.body[this.len] = newElement;
+  this.len++;
   this.drawSnake();
-}
+};
 
+// Déterminer la prochaine position de la tete
+Snake.prototype.checkFruit = function() {
+  var check =
+    this.body[0].row == myFruit.row && this.body[0].col == myFruit.col;
+  if (check) {
+    turnScore += bonusFruit;
+    console.log("Bravo ! votre score est : " + turnScore);
+    return check;
+  }
+};
+
+// Arreter le jeu si la tete touche un élément du corps
+Snake.prototype.checkBody = function() {
+  var check;
+  for (var i = 1; i < this.len; i++) {
+    check =
+      this.body[0].row == this.body[i].row &&
+      this.body[0].col == this.body[i].col;
+      if(check){ return(check);};
+  };
+
+};

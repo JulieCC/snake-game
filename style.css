@@ -9,18 +9,18 @@ tr, td {
     background-color : lightgray;
  }
 
- .fruit {
-     background-color:red;
- }
-
- .snake-head {
-     background-color: blue;
- }
-
  .snake-body {
     background-color : pink;
 }
 
 .snake-tail {
     background-color:green;
+}
+
+.snake-head {
+    background-color: blue;
+}
+
+.fruit {
+    background-color:red;
 }

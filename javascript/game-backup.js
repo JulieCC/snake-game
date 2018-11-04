@@ -67,14 +67,13 @@ $(document).ready(function() {
 
   // Mettre à jour le serpent : vérifier la position du body et du fruit, déplacer le serpent
   function updateSnake(myPlayer) {
-    if (mySnake.checkBody()) {
-      console.log("perdu");
-      endTurn(myPlayer);
-    } else {
+    if (!mySnake.checkBody()) {
       if (mySnake.checkFruit()) {
         createFruit();
       }
       mySnake.moveSnake();
+    } else {
+      endTurn(myPlayer);
     }
   }
 
@@ -83,46 +82,32 @@ $(document).ready(function() {
     startGame(myPlayer);
   }); // fin de la fonction "button-start-game"
 
-  // Initialiser le jeu : afficher le tableau, le fruit et le snake
-  function startGame(myPlayer) {
-    console.log("les deux joueurs :");
-    console.log(players);
-    console.log("mon joueur actif :");
-    console.log(myPlayer);
-    console.log("fruitID + growingID + snakeID");
-    console.log(fruitID + growingID + snakeID);
-    console.log("Check lastTurn = ");
-    console.log(lastTurn);
+      // Initialiser le jeu : afficher le tableau, le fruit et le snake
+      function startGame(myPlayer) {
+        console.log("fruitID + growingID + snakeID =")
+        console.log(fruitID + growingID + snakeID);
 
-    if ((gameWon == 1 && lastTurn == 0) || gameWon == 2 ) {
-      window.alert("Souhaitez-vous relancer la partie ?");
-      gameWon = 0;
-      lastTurn = 0;
-      createPlayers();
-      // return;
-    }
-
-    var boardDiv = document.getElementById("board-game");
-    boardDiv.innerHTML = createBoard(boardDim);
-    createSnake();
-    console.log(mySnake);
-    createFruit();
-
-    console.log("C'est parti " + myPlayer.name + "!");
-    myPlayer.turns++;
-
-    if (growingID == 0) {
-      growingID = setInterval(grow, snakeFreq);
-    }
-    if (fruitID == 0) {
-      fruitID = setInterval(createFruit, fruitFreq);
-    }
-    if (snakeID == 0) {
-      snakeID = setInterval(function() {
-        updateSnake(myPlayer);
-      }, snakeMove);
-    }
-  }
+        var boardDiv = document.getElementById("board-game");
+        boardDiv.innerHTML = createBoard(boardDim);
+        createSnake();
+        console.log(mySnake);
+        createFruit();
+  
+        console.log("C'est parti "+ myPlayer.name + "!")
+        endGame = 0;
+        
+        if (growingID == 0) {
+          growingID = setInterval(grow, snakeFreq);
+        }
+        if (fruitID == 0) {
+          fruitID = setInterval(createFruit, fruitFreq);
+        }
+        if (snakeID == 0) {
+          snakeID = setInterval(function() {
+            updateSnake(myPlayer);
+          }, snakeMove);
+        }
+      }
 
   // LE JEU //
 
@@ -143,27 +128,27 @@ $(document).ready(function() {
     player2 = new Player(name2);
     players = [player1, player2];
     console.log(players);
-    myPlayer = players[0];
+    myPlayer = player1;
     window.alert(myPlayer.name + ", are you ready ?");
   }
 
-  // Faire les annonces de fin de tour
-  function messages() {
-    if (gameWon == 0) {
-      window.alert(myPlayer.name + ", it's your turn !");
-    } 
-    else if (gameWon == 1 && lastTurn == 1) {
-      window.alert(
-        "Dernière chance pour toi " + myPlayer.name + ", bon courage !"
-      );
-    } else if (gameWon == 1 && lastTurn == 0) {
-      window.alert("Le jeu est terminé");
+  // Changer de joueur
+  function changePlayer(myPlayer) {
+    boardDiv = document.getElementById("board-game");
+    boardDiv.innerHTML.innerHTML = "";
+
+    switch (myPlayer) {
+      case players[0]:
+        myPlayer = players[1];
+        break;
+      case players[1]:
+        myPlayer = players[0];
+        break;
     }
-    else if (gameWon == 2) {
-      window.alert("égalité !");
+    window.alert(myPlayer.name + ", it's your turn !");
   }
-} 
-  // Récap fin de tour et mise à jour des scores
+
+  // Récap fin de tour
   function endTurn(myPlayer) {
     var totalScore = myPlayer.score + turnScore;
     console.log(
@@ -176,47 +161,6 @@ $(document).ready(function() {
         "."
     );
     myPlayer.score = totalScore;
-    if (myPlayer.score >= winningScore) {
-      gameWon++;
-      for (var i = 0; i < players.length; i++) {
-        if (myPlayer.turns > players[i].turns) {
-          lastTurn++;
-        }
-        else {lastTurn =0;}
-      }}
-      else {lastTurn =0;};
-      turnScore = 0;
-    changePlayer(myPlayer.name);
+    changePlayer(myPlayer);
   }
-
-
-  // Changer de joueur
-  function changePlayer(playerName) {
-    switch (playerName) {
-      case players[0].name:
-        myPlayer = players[1];
-        break;
-      case players[1].name:
-        myPlayer = players[0];
-        break;
-    }
-
-    messages();
-
-    boardDiv = document.getElementById("board-game");
-    boardDiv.innerHTML = "";
-
-    clearInterval(snakeID);
-    snakeID = 0;
-    clearInterval(fruitID);
-    fruitID = 0;
-    clearInterval(growingID);
-    growingID = 0;
-
-    console.log("mon joueur actif :");
-    console.log(myPlayer);
-
-    return myPlayer;
-  }
-
 }); // end of document ready
