@@ -7,6 +7,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
   <script src="javascript/global.js" type="text/javascript"></script>
   <script src="javascript/snake.js" type="text/javascript"></script>
   <script src="javascript/game.js" type="text/javascript"></script>
@@ -16,7 +17,20 @@
 
 <body>
 
-  <button class="button-start-game">Démarrer le jeu</button>
+  <h1>Click on the snake to start</h1>
+  <div class="button-start-game button-img">
+<img src="img/snake.png" class="img-snake" >
+
+  </div>
+
+  <div class="instructions">
+    <div class="instructions-text">
+      <p>Use direction keys to move snake and get the fruits.<br>
+        Beware : do not eat yourself !</p>
+    </div>
+  </div>
+
+
   <div id="board-game">
 
   </div>

@@ -68,7 +68,7 @@ $(document).ready(function() {
   // Mettre à jour le serpent : vérifier la position du body et du fruit, déplacer le serpent
   function updateSnake(myPlayer) {
     if (mySnake.checkBody()) {
-      console.log("perdu");
+      window.alert("The end ! " + myPlayer.name + ", you won " + turnScore + " points.");
       endTurn(myPlayer);
     } else {
       if (mySnake.checkFruit()) {
@@ -85,18 +85,8 @@ $(document).ready(function() {
 
   // Initialiser le jeu : afficher le tableau, le fruit et le snake
   function startGame(myPlayer) {
-    console.log("les deux joueurs :");
-    console.log(players);
-    console.log("mon joueur actif :");
-    console.log(myPlayer);
-    console.log("fruitID + growingID + snakeID");
-    console.log(fruitID + growingID + snakeID);
-    console.log("Check lastTurn = ");
-    console.log(lastTurn);
-
-    if ((gameWon == 1 && lastTurn == 0) || gameWon == 2 ) {
-      window.alert("Souhaitez-vous relancer la partie ?");
-      gameWon = 0;
+    if (lastTurn > 1) {
+      window.alert("Do you want to play again?");
       lastTurn = 0;
       createPlayers();
       // return;
@@ -105,10 +95,9 @@ $(document).ready(function() {
     var boardDiv = document.getElementById("board-game");
     boardDiv.innerHTML = createBoard(boardDim);
     createSnake();
-    console.log(mySnake);
-    createFruit();
 
-    console.log("C'est parti " + myPlayer.name + "!");
+    createFruit();
+    // window.alert("Let's go " + myPlayer.name + " !");
     myPlayer.turns++;
 
     if (growingID == 0) {
@@ -137,58 +126,65 @@ $(document).ready(function() {
 
   // Créer les joueurs
   function createPlayers() {
-    var name1 = window.prompt("Qui est le premier joueur ?", "");
-    var name2 = window.prompt("Qui est le deuxième joueur ?", "");
+    var name1 = window.prompt("Who is Player 1?", "");
+    var name2 = window.prompt("Who is Player2?", "");
     player1 = new Player(name1);
     player2 = new Player(name2);
     players = [player1, player2];
-    console.log(players);
     myPlayer = players[0];
-    window.alert(myPlayer.name + ", are you ready ?");
+    window.alert(myPlayer.name + ", are you ready ? Click to start, there is no turning back !");
   }
 
   // Faire les annonces de fin de tour
   function messages() {
-    if (gameWon == 0) {
-      window.alert(myPlayer.name + ", it's your turn !");
-    } 
-    else if (gameWon == 1 && lastTurn == 1) {
-      window.alert(
-        "Dernière chance pour toi " + myPlayer.name + ", bon courage !"
-      );
-    } else if (gameWon == 1 && lastTurn == 0) {
-      window.alert("Le jeu est terminé");
+    if (lastTurn == 0) {
+      window.alert(myPlayer.name + ", it's your turn. Get ready and click to start");
+    } else if (lastTurn == 1) {
+      if (players[0].score > players[1].score) {
+        window.alert(
+          +players[0].name +
+            " YOU WON ! The scores are " +
+            players[0].name +
+            " : " +
+            players[0].score +
+            " points. " +
+            players[1].name +
+            " : " +
+            players[1].score +
+            " points. "
+        );
+      }
+      if (players[0].score < players[1].score) {
+        window.alert(
+          +players[1].name +
+            " YOU WON ! The scores are " +
+            players[1].name +
+            " : " +
+            players[1].score +
+            " points. " +
+            players[0].name +
+            " : " +
+            players[0].score +
+            " points. "
+        );
+      }
+      if (players[0].score == players[1].score) {
+        window.alert(
+          " You are even ! You both have " + players[0].score + " points. "
+        );
+      }
+      lastTurn++;
     }
-    else if (gameWon == 2) {
-      window.alert("égalité !");
   }
-} 
   // Récap fin de tour et mise à jour des scores
   function endTurn(myPlayer) {
-    var totalScore = myPlayer.score + turnScore;
-    console.log(
-      "Oups... " +
-        myPlayer.name +
-        ", vous avez perdu. Votre score final est " +
-        turnScore +
-        ". Votre score total est " +
-        totalScore +
-        "."
-    );
-    myPlayer.score = totalScore;
-    if (myPlayer.score >= winningScore) {
-      gameWon++;
-      for (var i = 0; i < players.length; i++) {
-        if (myPlayer.turns > players[i].turns) {
-          lastTurn++;
-        }
-        else {lastTurn =0;}
-      }}
-      else {lastTurn =0;};
-      turnScore = 0;
+    // window.alert(myPlayer.name + " you won " + turnScore + " points.");
+    myPlayer.score = turnScore;
+
+    turnScore = 0;
+
     changePlayer(myPlayer.name);
   }
-
 
   // Changer de joueur
   function changePlayer(playerName) {
@@ -203,6 +199,8 @@ $(document).ready(function() {
 
     messages();
 
+    lastTurn++;
+
     boardDiv = document.getElementById("board-game");
     boardDiv.innerHTML = "";
 
@@ -213,10 +211,6 @@ $(document).ready(function() {
     clearInterval(growingID);
     growingID = 0;
 
-    console.log("mon joueur actif :");
-    console.log(myPlayer);
-
     return myPlayer;
   }
-
 }); // end of document ready

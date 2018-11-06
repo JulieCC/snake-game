@@ -15,13 +15,11 @@ function formatName(element){
 // Paramètres du jeu
 var boardDim = 15; // dimensions du tableau
 var lenInit = 4; // longueur initiale du serpent
-var snakeMove = 200; // fréquence à laquelle le serpent avance
+var snakeMove = 100; // fréquence à laquelle le serpent avance
 var snakeFreq = 2000; // fréquence à laquelle le serpent grandit
 var fruitFreq = 10000// fréquence à laquelle le fruit change de place
 var turnScore = 0 // score pour la partie en cours
 var bonusFruit = 10; // nombre de points gagnés à chaque fruit croqué
-var winningScore = 10; // score à atteindre pour gagner
-var gameWon = 0; // Déclencheur de jeu gagné
 var lastTurn = 0; // Déclencheur de dernière partie
 
 // Paramètres de la partie 

@@ -1,13 +1,35 @@
-table, tr, td {
-    border: none;
+body{
+    background-color: #fdf8e5;
+    font-family: 'Rubik', sans-serif;
+    color : #ffca2e;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+table {
+    border-width: 1px; 
+    border-color: black;
 }
 
 tr, td {
-    border: none;
     width: 40px;
     height: 40px;
-    background-color : lightgray;
+    background-color : none;
  }
+
+ .img-snake {
+    width: 100px;
+    height: 100px;
+    display:block;
+  }
+
+ .button-img {
+    border: none;
+    cursor: pointer;
+    }
+
 
  .snake-body {
     background-color : pink;
@@ -18,7 +40,8 @@ tr, td {
 }
 
 .snake-head {
-    background-color: blue;
+    background: url(img/mexican-hat.png) no-repeat left top;
+    background-size: 40px;
 }
 
 .fruit {
