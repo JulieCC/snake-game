@@ -1,49 +1,109 @@
-body{
-    background-color: #fdf8e5;
-    font-family: 'Rubik', sans-serif;
-    color : #ffca2e;
+body {
+  background-color: #fff2ce;
+  font-family: "Rubik", sans-serif;
+  color: #f9bc43;
+}
+
+p#score {
+    font-family: "Rubik", sans-serif;
+  color: #f9bc43;
+}
+
+div#bg {
+    position: absolute;
+    margin : auto;
+    position:absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+    z-index: 1;
+    text-align: center;
+}
+
+div#all {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    z-index: 2;
+}
+
+div#content {
+    justify-content: center;
+    margin : auto;
+    text-align: center;
 }
 
 h1 {
-    font-size: 50px;
+  font-size: 20px;
 }
 
 table {
-    border-width: 1px; 
-    border-color: black;
+  border: 6px solid #00a25a;
+  margin : auto;
 }
 
-tr, td {
-    width: 40px;
-    height: 40px;
-    background-color : none;
- }
+tr,
+td {
+  width: 30px;
+  height: 30px;  
+  background-color: #fdf7e7;
+}
 
- .img-snake {
-    width: 100px;
-    height: 100px;
-    display:block;
-  }
+.img-snake {
+  width: 100px;
+  height: 100px;
+  /* display: block; */
+}
 
- .button-img {
-    border: none;
-    cursor: pointer;
-    }
+.button-img {
+  border: none;
+  cursor: pointer;
+}
 
-
- .snake-body {
-    background-color : pink;
+.snake-body {
+  background: url(img/body.png) no-repeat left top;
+  background-size: 30px;
 }
 
 .snake-tail {
-    background-color:green;
+  background: url(img/body.png) no-repeat left top;
+  background-size: 30px;
 }
 
 .snake-head {
-    background: url(img/mexican-hat.png) no-repeat left top;
-    background-size: 40px;
+  background: url(img/head.png) no-repeat left top;
+  background-size: 30px;
 }
 
 .fruit {
-    background-color:red;
+  background: url(img/fruit.png) no-repeat left top;
+  background-size: 30px;
 }
+
+.button-img :hover {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }

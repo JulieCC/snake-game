@@ -73,6 +73,8 @@ $(document).ready(function() {
     } else {
       if (mySnake.checkFruit()) {
         createFruit();
+        var newScore = document.getElementById("score");
+        newScore.innerHTML = "Current score : " + turnScore + " points";
       }
       mySnake.moveSnake();
     }
@@ -156,7 +158,7 @@ $(document).ready(function() {
       }
       if (players[0].score < players[1].score) {
         window.alert(
-          +players[1].name +
+          players[1].name +
             " YOU WON ! The scores are " +
             players[1].name +
             " : " +
